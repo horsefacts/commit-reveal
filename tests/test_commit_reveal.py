@@ -151,3 +151,9 @@ def test_approve_emits_approval_event(cr, owner, receiver, other):
     assert logs[0].owner == receiver
     assert logs[0].approved == other
     assert logs[0].tokenId == 1
+
+def test_supported_interfaces(cr):
+    assert cr.supportsInterface("0x01ffc9a7")
+    assert cr.supportsInterface("0x80ac58cd")
+    assert cr.supportsInterface("0x5b5e139f")
+    assert cr.supportsInterface("0xdeadbeef") == False
