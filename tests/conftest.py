@@ -18,8 +18,12 @@ def operator(accounts):
     return accounts[3]
 
 @pytest.fixture(scope="session")
-def cr(owner, project):
-    return owner.deploy(project.CommitReveal)
+def metadata(owner, project):
+    return owner.deploy(project.Metadata)
+
+@pytest.fixture(scope="session")
+def cr(owner, project, metadata):
+    return owner.deploy(project.CommitRevealMintable, metadata)
 
 @pytest.fixture(scope="session")
 def unsafe_receiver(owner, project):
@@ -28,3 +32,7 @@ def unsafe_receiver(owner, project):
 @pytest.fixture(scope="session")
 def safe_receiver(owner, project):
     return owner.deploy(project.SafeReceiver)
+
+@pytest.fixture(scope="session")
+def b64(owner, project):
+    return owner.deploy(project.Base64)

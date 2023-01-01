@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="background:#151520" viewBox="0 0 700 300">
+  <path id="a" fill="#151520" d="M10 10h670a20 10 0 0 1 10 10v260a20 10 0 0 1-10 10H20a20 10 0 0 1-10-10V10z"/>
+  <text fill="#ef4444" dominant-baseline="middle" font-family="Menlo,monospace" font-size="12"><textPath href="#a">&#160;Commit/Reveal 2023 &#8226;<![CDATA[ 0x65462b0520ef7d3df61b9992ed3bea0c56ead753be7c8b3614e0ce01e4cac41b 0x65462b0520ef7d3df61b9992ed3bea0c56ead753be7c8b3614e0ce01e4cac41b 0x65462b0520ef7d3df61b9992ed3bea0c56ead753be7c8b3614e0ce01e4cac41b 0x65462b0520ef7d3df61b9992ed3bea0c56ead753be7c8b3614e0ce01e4cac41b 0x65462b0520ef7d3df61b9992ed3bea0c56ead753be7c8b3614e0ce01e4cac41b]]></textPath></text>
+  <path fill="rgba(0,0,0,0)" stroke="#ef4444" d="M20 20h650a10 10 0 0 1 10 10v240a10 10 0 0 1-10 10H30a10 10 0 0 1-10-10V20z"/>
+  <foreignObject x="50" y="30" width="620" height="250">
+     <div style="font-family:Menlo,monospace;color:#fff;font-size:24px;display:flex;align-items:center;justify-content:center;height:240px"  xmlns="http://www.w3.org/1999/xhtml">
+     <p>MakerDAO will collapse and DAI will depeg to 65 cents.</p>
+     </div>
+    </foreignObject>
+</svg>

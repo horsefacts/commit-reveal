@@ -6,7 +6,9 @@ from ape.api.networks import LOCAL_NETWORK_NAME
 
 def main():
     account = get_user_selected_account()
-    account.deploy(project.CommitReveal)
+    metadata = account.deploy(project.Metadata)
+    cr = account.deploy(project.CommitReveal, metadata)
+    metadata.setToken(cr)
 
 @click.command(cls=NetworkBoundCommand)
 @ape_cli_context()
@@ -18,4 +20,6 @@ def cli(cli_ctx, network):
     else:
         account = get_user_selected_account()
 
-    account.deploy(project.CommitReveal)
+    metadata = account.deploy(project.Metadata)
+    cr = account.deploy(project.CommitReveal, metadata)
+    metadata.setToken(cr, sender=account)

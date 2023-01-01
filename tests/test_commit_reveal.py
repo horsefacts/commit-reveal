@@ -1,4 +1,5 @@
 import ape
+import eth_utils
 
 ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -9,10 +10,11 @@ def test_token_has_name(cr):
     assert cr.name() ==  "Commit/Reveal"
 
 def test_token_has_symbol(cr):
-    assert cr.symbol() ==  "C/R 2022"
+    assert cr.symbol() ==  "C/R 2023"
 
 def test_balance_of(cr, owner, receiver):
-    cr.mint(receiver, 1, sender=owner)
+    commitment = eth_utils.keccak("commitment".encode('utf-8'))
+    cr.commit(commitment, sender=receiver)
     assert cr.balanceOf(receiver) == 1
 
 def test_balance_of_reverts_zero_address(cr):
@@ -157,3 +159,43 @@ def test_supported_interfaces(cr):
     assert cr.supportsInterface("0x80ac58cd")
     assert cr.supportsInterface("0x5b5e139f")
     assert cr.supportsInterface("0xdeadbeef") == False
+
+def test_commit_mints_token_to_caller(cr, receiver):
+    commitment = eth_utils.keccak("commitment".encode('utf-8'))
+    cr.commit(commitment, sender=receiver)
+    assert cr.ownerOf(1) == receiver
+
+def test_commit_stores_commitment(cr, receiver):
+    commitment = eth_utils.keccak("commitment".encode('utf-8'))
+    cr.commit(commitment, sender=receiver)
+    assert cr.commitmentHashes(1) == commitment
+
+def test_commit_reverts_after_commit_phase(cr, receiver, chain):
+    chain.pending_timestamp = 1673136000
+    commitment = eth_utils.keccak("commitment".encode('utf-8'))
+    with ape.reverts("Commitments closed"):
+        cr.commit(commitment, sender=receiver)
+
+def test_reveal(cr, receiver, chain):
+    commitment = eth_utils.keccak("commitment".encode('utf-8'))
+    cr.commit(commitment, sender=receiver)
+    chain.pending_timestamp = 1703980801
+    cr.reveal(1, "commitment", sender=receiver)
+    assert cr.commitments(1) == "commitment"
+
+def test_reveal_reverts_before_reveal_phase(cr, receiver):
+    commitment = eth_utils.keccak("commitment".encode('utf-8'))
+    cr.commit(commitment, sender=receiver)
+    with ape.reverts("Cannot reveal yet"):
+        cr.reveal(1, "mismatch", sender=receiver)
+
+def test_reveal_reverts_wrong_hash(cr, receiver, chain):
+    commitment = eth_utils.keccak("commitment".encode('utf-8'))
+    cr.commit(commitment, sender=receiver)
+    chain.pending_timestamp = 1703980801
+    with ape.reverts("Wrong hash"):
+        cr.reveal(1, "mismatch", sender=receiver)
+
+def test_base64(b64):
+    assert b64.encode("hello world".encode('utf-8')) == ['aGVs', 'bG8g', 'd29y', 'bGQ=']
+    assert b64.encode("this is a longer string".encode('utf-8')) == ['dGhp', 'cyBp', 'cyBh', 'IGxv', 'bmdl', 'ciBz', 'dHJp', 'bmc=']

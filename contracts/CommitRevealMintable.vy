@@ -121,6 +121,11 @@ def balanceOf(owner: address) -> uint256:
 
 
 @external
+def mint(receiver: address, tokenId: uint256):
+    self._mint(receiver, tokenId)
+
+
+@external
 def commit(commitmentHash: bytes32):
     assert block.timestamp < COMMIT_PHASE_ENDS, "Commitments closed"
     self._nextId += 1

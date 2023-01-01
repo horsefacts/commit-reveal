@@ -1,4 +1,12 @@
 name: commit-reveal
 plugins:
   - name: vyper
-
+  - name: solidity
+  - name: alchemy
+dependencies:
+  - name: OpenZeppelin
+    github: OpenZeppelin/openzeppelin-contracts
+    version: "4.8.0"
+solidity:
+  import_remapping:
+    - "@openzeppelin=OpenZeppelin/v4.8.0/"
