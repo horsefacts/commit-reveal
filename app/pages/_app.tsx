@@ -1,12 +1,13 @@
-import "../styles/globals.css";
-import "@rainbow-me/rainbowkit/styles.css";
+import '../styles/globals.css';
+import '@rainbow-me/rainbowkit/styles.css';
 
-import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { arbitrum, goerli, mainnet, optimism, polygon } from "wagmi/chains";
-import { alchemyProvider } from "wagmi/providers/alchemy";
-import { publicProvider } from "wagmi/providers/public";
+import { configureChains, createClient, WagmiConfig } from 'wagmi';
+import { goerli, mainnet } from 'wagmi/chains';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { publicProvider } from 'wagmi/providers/public';
 
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { Analytics } from '@vercel/analytics/react';
 
 import type { AppProps } from "next/app";
 const { chains, provider, webSocketProvider } = configureChains(
@@ -36,11 +37,14 @@ const wagmiClient = createClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+      <Analytics />
+    </>
   );
 }
 
