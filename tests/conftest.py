@@ -23,7 +23,7 @@ def metadata(owner, project):
 
 @pytest.fixture(scope="session")
 def cr(owner, project, metadata):
-    return owner.deploy(project.CommitRevealMintable, metadata)
+    return owner.deploy(project.CommitRevealMintable, metadata, owner)
 
 @pytest.fixture(scope="session")
 def unsafe_receiver(owner, project):

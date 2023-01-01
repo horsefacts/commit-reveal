@@ -3,6 +3,7 @@ plugins:
   - name: vyper
   - name: solidity
   - name: alchemy
+  - name: etherscan
 dependencies:
   - name: OpenZeppelin
     github: OpenZeppelin/openzeppelin-contracts

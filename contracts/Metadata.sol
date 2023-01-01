@@ -40,7 +40,9 @@ contract Metadata is Ownable {
   function tokenJSON(uint256 tokenId) public view returns (string memory) {
     return
       string.concat(
-        '{"name":"Commit/Reveal 2023","description":"This token represents a hashed commitment that can be revealed 2023-12-31.","image":"',
+        '{"name":"',
+        _commitmentHash(tokenId),
+        '","description":"This token represents a hashed commitment that can be revealed December 31, 2023.","image":"',
         _dataURI("image/svg+xml", tokenSVG(tokenId)),
         '"}'
       );
@@ -52,7 +54,7 @@ contract Metadata is Ownable {
         '<svg xmlns="http://www.w3.org/2000/svg" style="background:#151520" viewBox="0 0 700 300"><path id="a" fill="#151520" d="M10 10h670a20 10 0 0 1 10 10v260a20 10 0 0 1-10 10H20a20 10 0 0 1-10-10V10z"/><text fill="#',
         _color(tokenId),
         '" dominant-baseline="middle" font-family="Menlo,monospace" font-size="12"><textPath href="#a">&#160;Commit/Reveal 2023 &#8226;<![CDATA[ ',
-        _commitmentHash(tokenId),
+        _commitmentHashes(tokenId),
         ']]></textPath></text><path fill="rgba(0,0,0,0)" stroke="#',
         _color(tokenId),
         '" d="M20 20h650a10 10 0 0 1 10 10v240a10 10 0 0 1-10 10H30a10 10 0 0 1-10-10V20z"/><foreignObject x="50" y="30" width="620" height="250"><div style="font-family:Menlo,monospace;color:#fff;font-size:24px;display:flex;align-items:center;justify-content:center;height:240px"  xmlns="http://www.w3.org/1999/xhtml"><p>',
@@ -66,14 +68,19 @@ contract Metadata is Ownable {
   }
 
   function _color(uint256 tokenId) internal view returns (string memory) {
-    return colors[colors.length % tokenId];
+    return colors[tokenId % colors.length];
   }
 
   function _commitmentHash(
     uint256 tokenId
   ) internal view returns (string memory) {
-    bytes32 hashBytes = token.commitmentHashes(tokenId);
-    string memory commitmentHash = uint256(hashBytes).toHexString();
+    return uint256(token.commitmentHashes(tokenId)).toHexString();
+  }
+
+  function _commitmentHashes(
+    uint256 tokenId
+  ) internal view returns (string memory) {
+    string memory commitmentHash = _commitmentHash(tokenId);
     return
       string.concat(
         commitmentHash,

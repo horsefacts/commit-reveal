@@ -70,9 +70,9 @@ isApprovedForAll: public(HashMap[address, HashMap[address, bool]])
 
 
 @external
-def __init__(metadata: Metadata):
+def __init__(metadata: Metadata, owner: address):
     self.metadata = metadata
-    self.owner = msg.sender
+    self.owner = owner
 
 
 @pure
@@ -135,7 +135,7 @@ def commit(commitmentHash: bytes32):
 
 
 @external
-def reveal(tokenId: uint256, commitment: String[128]):
+def reveal(tokenId: uint256, commitment: String[256]):
     assert block.timestamp > REVEAL_PHASE_BEGINS, "Cannot reveal yet"
     assert keccak256(commitment) == self.commitmentHashes[tokenId], "Wrong hash"
     self.commitments[tokenId] = commitment

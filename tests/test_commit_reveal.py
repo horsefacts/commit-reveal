@@ -183,6 +183,14 @@ def test_reveal(cr, receiver, chain):
     cr.reveal(1, "commitment", sender=receiver)
     assert cr.commitments(1) == "commitment"
 
+def test_reveal_long_commitment(cr, receiver, chain):
+    phrase = "A person I have known for more than ten years, who I consider trustworthy, is convinced the cryptocurrency economy will shortly experience a systemic risk. I don't know anything concrete, but if I were exposed, I would be concerned."
+    commitment = eth_utils.keccak(phrase.encode('utf-8'))
+    cr.commit(commitment, sender=receiver)
+    chain.pending_timestamp = 1703980801
+    cr.reveal(1, phrase, sender=receiver)
+    assert cr.commitments(1) == phrase
+
 def test_reveal_reverts_before_reveal_phase(cr, receiver):
     commitment = eth_utils.keccak("commitment".encode('utf-8'))
     cr.commit(commitment, sender=receiver)

@@ -20,6 +20,6 @@ def cli(cli_ctx, network):
     else:
         account = get_user_selected_account()
 
-    metadata = account.deploy(project.Metadata)
-    cr = account.deploy(project.CommitReveal, metadata)
+    metadata = account.deploy(project.Metadata, publish=True)
+    cr = account.deploy(project.CommitReveal, metadata, account)
     metadata.setToken(cr, sender=account)

@@ -50,7 +50,7 @@ SUPPORTED_INTERFACE_IDS: constant(bytes4[3]) = [
 COMMIT_PHASE_ENDS: constant(uint256) = 1673136000
 
 # 31 Dec 2023 UTC
-REVEAL_PHASE_BEGINS: constant(uint256) = 1703980800
+REVEAL_PHASE_BEGINS: constant(uint256) = 1672547472  # 1703980800
 
 NAME: constant(String[13]) = "Commit/Reveal"
 SYMBOL: constant(String[8]) = "C/R 2023"
@@ -70,9 +70,9 @@ isApprovedForAll: public(HashMap[address, HashMap[address, bool]])
 
 
 @external
-def __init__(metadata: Metadata):
+def __init__(metadata: Metadata, owner: address):
     self.metadata = metadata
-    self.owner = msg.sender
+    self.owner = owner
 
 
 @pure
@@ -130,7 +130,7 @@ def commit(commitmentHash: bytes32):
 
 
 @external
-def reveal(tokenId: uint256, commitment: String[128]):
+def reveal(tokenId: uint256, commitment: String[256]):
     assert block.timestamp > REVEAL_PHASE_BEGINS, "Cannot reveal yet"
     assert keccak256(commitment) == self.commitmentHashes[tokenId], "Wrong hash"
     self.commitments[tokenId] = commitment
