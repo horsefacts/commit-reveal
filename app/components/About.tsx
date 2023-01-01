@@ -3,7 +3,7 @@ import TimeAgo from 'react-timeago';
 
 function About() {
   return (
-    <div className="space-y-2 lg:w-2/3 md:w-3/4">
+    <div className="space-y-2 max-w-prose">
       <p>
         Type a message in the box above to create a hashed onchain commitment.
         You&apos;ll receive a token representing your commitment that can be
@@ -16,8 +16,8 @@ function About() {
         somewhere safe.
       </p>
       <p>
-        A longer commitment message will cost more gas to reveal, so you may
-        want to keep it short.
+        A longer commitment message will cost more gas to reveal later, so you
+        may want to keep it short.
       </p>
       <p>
         Tokens are free and unlimited, but can only be minted for a week.
