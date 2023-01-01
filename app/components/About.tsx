@@ -1,5 +1,5 @@
-import React from "react";
-import TimeAgo from "react-timeago";
+import React from 'react';
+import TimeAgo from 'react-timeago';
 
 function About() {
   return (
@@ -24,6 +24,16 @@ function About() {
         Commitments will close{" "}
         <TimeAgo date={new Date(1673136000 * 1000)} className="font-bold" />.
       </p>
+      <div className="text-xs cursor-pointer text-neutral-400 hover:text-neutral-600">
+        <a
+          href="https://twitter.com/eth_call/status/1609463639399956482"
+          target="_blank"
+          rel="noreferrer"
+          className="pt-16"
+        >
+          Created NYE 2022 by <pre className="inline">@eth_call</pre>
+        </a>
+      </div>
     </div>
   );
 }
