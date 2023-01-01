@@ -50,7 +50,7 @@ SUPPORTED_INTERFACE_IDS: constant(bytes4[3]) = [
 COMMIT_PHASE_ENDS: constant(uint256) = 1673136000
 
 # 31 Dec 2023 UTC
-REVEAL_PHASE_BEGINS: constant(uint256) = 1672547472  # 1703980800
+REVEAL_PHASE_BEGINS: constant(uint256) = 1703980800
 
 NAME: constant(String[13]) = "Commit/Reveal"
 SYMBOL: constant(String[8]) = "C/R 2023"
