@@ -1,7 +1,7 @@
 import React from 'react';
 import TimeAgo from 'react-timeago';
 
-function About() {
+function About({ now, close }: { now: Date; close: Date }) {
   return (
     <div className="space-y-2 max-w-prose">
       <p>
@@ -20,9 +20,17 @@ function About() {
         may want to keep it short.
       </p>
       <p>
-        Tokens are free and unlimited, but can only be minted for a week.
-        Commitments will close{" "}
-        <TimeAgo date={new Date(1673136000 * 1000)} className="font-bold" />.
+        Tokens are free and unlimited, but can only be minted for a week.{" "}
+        {now >= close ? (
+          <>
+            Commitments closed <TimeAgo date={close} className="font-bold" />.
+          </>
+        ) : (
+          <>
+            Commitments will close{" "}
+            <TimeAgo date={close} className="font-bold" />.
+          </>
+        )}
       </p>
       <div className="text-xs cursor-pointer text-neutral-400 hover:text-neutral-600">
         <a

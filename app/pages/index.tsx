@@ -1,14 +1,14 @@
-import { BigNumber, BytesLike } from "ethers";
-import Head from "next/head";
-import { useState } from "react";
+import { BigNumber, BytesLike } from 'ethers';
+import Head from 'next/head';
+import { useState } from 'react';
 
-import About from "../components/About";
-import Commit from "../components/Commit";
-import Connect from "../components/Connect";
-import ContractInfo from "../components/ContractInfo";
-import Mint from "../components/Mint";
-import Success from "../components/Success";
-import { useHasMounted } from "../hooks/hasMounted";
+import About from '../components/About';
+import Commit from '../components/Commit';
+import Connect from '../components/Connect';
+import ContractInfo from '../components/ContractInfo';
+import Mint from '../components/Mint';
+import Success from '../components/Success';
+import { useHasMounted } from '../hooks/hasMounted';
 
 import type { NextPage } from "next";
 const Home: NextPage = () => {
@@ -17,6 +17,10 @@ const Home: NextPage = () => {
   const [txHash, setTxHash] = useState<string>();
   const [tokenId, setTokenId] = useState<BigNumber>();
   const [success, setSuccess] = useState<boolean>(false);
+
+  const now = new Date();
+  const close = new Date(1673136000 * 1000);
+  const closed = now >= close;
 
   const onCommitmentChange = (hash: BytesLike) => {
     setHash(hash);
@@ -54,8 +58,12 @@ const Home: NextPage = () => {
             )}
             {!success && (
               <>
-                <Mint hash={hash} onMintSuccess={onMintSuccess} />
-                <About />
+                <Mint
+                  hash={hash}
+                  onMintSuccess={onMintSuccess}
+                  closed={closed}
+                />
+                <About now={now} close={close} />
               </>
             )}
           </main>

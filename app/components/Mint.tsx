@@ -1,23 +1,20 @@
-import { BigNumber, BytesLike } from "ethers";
-import React, { useState } from "react";
-import TimeAgo from "react-timeago";
+import { BigNumber, BytesLike } from 'ethers';
+import React, { useState } from 'react';
+import TimeAgo from 'react-timeago';
 import {
-  useAccount,
-  useContractWrite,
-  useNetwork,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+    useAccount, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction
+} from 'wagmi';
 
-import { Interface } from "@ethersproject/abi";
-import { TransactionReceipt } from "@ethersproject/providers";
+import { Interface } from '@ethersproject/abi';
+import { TransactionReceipt } from '@ethersproject/providers';
 
-import { commitRevealABI } from "../config/abis/commitReveal";
-import { getContract } from "../config/contracts";
+import { commitRevealABI } from '../config/abis/commitReveal';
+import { getContract } from '../config/contracts';
 
 interface MintProps {
   hash?: BytesLike;
   onMintSuccess: (txHash?: string, tokenId?: BigNumber) => void;
+  closed: boolean;
 }
 
 interface WagmiError {
@@ -27,7 +24,7 @@ interface WagmiError {
 const EMPTY_HASH =
   "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470";
 
-function Mint({ hash, onMintSuccess }: MintProps) {
+function Mint({ hash, onMintSuccess, closed }: MintProps) {
   const { isConnected } = useAccount();
   const { chain } = useNetwork();
   const [success, setSuccess] = useState<boolean>();
@@ -56,7 +53,7 @@ function Mint({ hash, onMintSuccess }: MintProps) {
     },
   });
 
-  const enabled = isConnected && hash && hash !== EMPTY_HASH;
+  const enabled = !closed && isConnected && hash && hash !== EMPTY_HASH;
   const error = (mintError || writeError) as WagmiError;
 
   const parseTokenId = (data: TransactionReceipt) => {
@@ -86,6 +83,7 @@ function Mint({ hash, onMintSuccess }: MintProps) {
       return reason ? `Error: ${reason}` : "Error";
     }
     if (success) return "Success!";
+    if (closed) return "Minting closed";
     if (!enabled) return "Type to mint";
     return "Mint this commitment";
   };
