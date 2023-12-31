@@ -1,34 +1,23 @@
-import { BigNumber, BytesLike } from 'ethers';
-import Head from 'next/head';
-import { useState } from 'react';
+import Head from "next/head";
+import { useState } from "react";
 
-import About from '../components/About';
-import Commit from '../components/Commit';
-import Connect from '../components/Connect';
-import ContractInfo from '../components/ContractInfo';
-import Mint from '../components/Mint';
-import Success from '../components/Success';
-import { useHasMounted } from '../hooks/hasMounted';
+import About from "../components/About";
+import Connect from "../components/Connect";
+import ContractInfo from "../components/ContractInfo";
+import Success from "../components/Success";
+import { useHasMounted } from "../hooks/hasMounted";
 
 import type { NextPage } from "next";
+import Tokens, { Token } from "../components/Tokens";
+import Reveal from "../components/Reveal";
 const Home: NextPage = () => {
   const hasMounted = useHasMounted();
-  const [hash, setHash] = useState<BytesLike>();
+  const [token, setToken] = useState<Token>();
   const [txHash, setTxHash] = useState<string>();
-  const [tokenId, setTokenId] = useState<BigNumber>();
   const [success, setSuccess] = useState<boolean>(false);
 
-  const now = new Date();
-  const close = new Date(1673136000 * 1000);
-  const closed = now >= close;
-
-  const onCommitmentChange = (hash: BytesLike) => {
-    setHash(hash);
-  };
-
-  const onMintSuccess = (txHash?: string, tokenId?: BigNumber) => {
+  const onRevealSuccess = (txHash: string) => {
     setTxHash(txHash);
-    setTokenId(tokenId);
     setSuccess(true);
   };
 
@@ -52,18 +41,14 @@ const Home: NextPage = () => {
             </div>
             <Connect />
             {success ? (
-              <Success txHash={txHash} tokenId={tokenId} />
+              <Success txHash={txHash} tokenId={token?.tokenId} />
             ) : (
-              <Commit onCommitmentChange={onCommitmentChange} />
-            )}
-            {!success && (
               <>
-                <Mint
-                  hash={hash}
-                  onMintSuccess={onMintSuccess}
-                  closed={closed}
-                />
-                <About now={now} close={close} />
+                <Tokens onTokenSelected={setToken} />
+                {token && (
+                  <Reveal token={token} onRevealSuccess={onRevealSuccess} />
+                )}
+                <About />
               </>
             )}
           </main>
