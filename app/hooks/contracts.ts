@@ -1,16 +1,16 @@
-import { BigNumber, BigNumberish } from "ethers";
+import { BigNumberish } from "ethers";
 import { useContractRead, useNetwork } from "wagmi";
 
 import { commitRevealABI } from "../config/abis/commitReveal";
 import { getContract } from "../config/contracts";
 
-export function useMetadata(tokenId?: BigNumber) {
+export function useMetadata(tokenId?: BigNumberish) {
   const { chain } = useNetwork();
   const { data, isError, isLoading } = useContractRead({
     address: getContract(chain),
     abi: commitRevealABI,
     functionName: "tokenURI",
-    args: tokenId && [tokenId],
+    args: [BigInt(tokenId ?? 0)],
   });
   let tokenMetadata;
   if (data) {

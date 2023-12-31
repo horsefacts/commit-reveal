@@ -1,4 +1,4 @@
-import { BigNumber } from "ethers";
+import { BigNumberish } from "ethers";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Confetti from "react-dom-confetti";
@@ -8,7 +8,7 @@ import { useMetadata } from "../hooks/contracts";
 
 interface SuccessProps {
   txHash?: string;
-  tokenId?: BigNumber;
+  tokenId?: BigNumberish;
 }
 
 function Success({ txHash, tokenId }: SuccessProps) {
@@ -24,7 +24,7 @@ function Success({ txHash, tokenId }: SuccessProps) {
     chain && `${chain.blockExplorers?.default.url}/tx/${txHash}`;
 
   return (
-    <div>
+    <div className="text-xl">
       <div className="flex flex-row place-items-center">
         <div className="py-8 text-center">
           {tokenMetadata && (
@@ -37,7 +37,7 @@ function Success({ txHash, tokenId }: SuccessProps) {
             />
           )}
           <div className="font-bold text-red-500">
-            Your commitment was minted.
+            Your commitment was revealed.
           </div>
           {etherscanURL && (
             <p>

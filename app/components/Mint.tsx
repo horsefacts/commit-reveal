@@ -1,19 +1,19 @@
-import { BigNumber, BytesLike } from 'ethers';
-import React, { useState } from 'react';
-import TimeAgo from 'react-timeago';
+import { BigNumberish, BytesLike, Interface } from "ethers";
+import React, { useState } from "react";
 import {
-    useAccount, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction
-} from 'wagmi';
-
-import { Interface } from '@ethersproject/abi';
-import { TransactionReceipt } from '@ethersproject/providers';
-
-import { commitRevealABI } from '../config/abis/commitReveal';
-import { getContract } from '../config/contracts';
+  useAccount,
+  useContractWrite,
+  useNetwork,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
+import { commitRevealABI } from "../config/abis/commitReveal";
+import { getContract } from "../config/contracts";
+import { TransactionReceipt } from "viem";
 
 interface MintProps {
   hash?: BytesLike;
-  onMintSuccess: (txHash?: string, tokenId?: BigNumber) => void;
+  onMintSuccess: (txHash?: string, tokenId?: BigNumberish) => void;
   closed: boolean;
 }
 
@@ -41,11 +41,7 @@ function Mint({ hash, onMintSuccess, closed }: MintProps) {
     data: txData,
     error: writeError,
   } = useContractWrite(config);
-  const {
-    data: mintData,
-    error: mintError,
-    isLoading: isMinting,
-  } = useWaitForTransaction({
+  const { error: mintError, isLoading: isMinting } = useWaitForTransaction({
     hash: txData?.hash,
     onSuccess(data) {
       setSuccess(true);

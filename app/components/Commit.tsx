@@ -1,5 +1,4 @@
-import { BytesLike, keccak256, toUtf8Bytes } from "ethers/lib/utils.js";
-import Image from "next/image";
+import { BytesLike, keccak256, toUtf8Bytes } from "ethers";
 import React, { useState } from "react";
 
 interface UploadProps {
